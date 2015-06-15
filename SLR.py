@@ -18,10 +18,10 @@ def elev_change(imax, jmax, current_SL, n, riv_x, riv_y, ch_depth, dx, dy):
         
         i = i + 1
     
-    # raises elevation of last river course cell
+    # changes elevation of last river course cell according to sea level change
     n[riv_x[-1]/dx][riv_y[-1]/dy] = current_SL - ch_depth
 
-    # raises cell elevation to sea level if it is below (becomes marsh)
+    # raises cell elevation to sea level if it is below
     for i in range(imax):
         for j in range(jmax):
 
@@ -30,7 +30,10 @@ def elev_change(imax, jmax, current_SL, n, riv_x, riv_y, ch_depth, dx, dy):
 
             j = j + 1
         i = i + 1
-
+        """
+        Need to somehow change above treatment of cells... they don't need to be
+        raised to sea level anymore. 
+        """
 #    # raises elevation of whole inlet row
 #    for I in range(jmax):
 #        n[0][I] = n[0][I] + (IRR)

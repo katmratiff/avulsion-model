@@ -7,15 +7,17 @@ Created on Tue Mar 17 21:22:00 2015
 
 def cut_init(dx, dy, riv_x, riv_y, n, init_cut, Initial_SL):
     
+#    n[riv_x[:]/dx][riv_y[:]/dy] = n[riv_x[:]/dx][riv_y[:]/dy] - init_cut
+    
     for i in range(len(riv_x)):
         
         n[riv_x[i]/dx][riv_y[i]/dy] = n[riv_x[i]/dx][riv_y[i]/dy] - init_cut
         
-        if n[riv_x[i]/dx][riv_y[i]/dy] < Initial_SL:
-            n[riv_x[i]/dx][riv_y[i]/dy] = Initial_SL
+#        if n[riv_x[i]/dx][riv_y[i]/dy] < Initial_SL:
+#            n[riv_x[i]/dx][riv_y[i]/dy] = Initial_SL
         
         i = i + 1
-    
+            
     return n
 
 def cut_new(dx, dy, riv_x, riv_y, n, length_new, current_SL, a, ch_depth):
