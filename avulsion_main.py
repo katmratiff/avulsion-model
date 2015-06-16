@@ -113,7 +113,6 @@ for i in range(imax):
 riv_x, riv_y = steep_desc.find_course(dx, dy, imax, jmax, n, riv_x, riv_y)
 
 # downcut into new river course by amount determined by init_cut
-
 n = downcut.cut_init(dx, dy, riv_x, riv_y, n, init_cut, Initial_SL)
 
 # smooth initial river course elevations using linear diffusion equation

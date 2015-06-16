@@ -25,7 +25,7 @@ def cut_new(dx, dy, riv_x, riv_y, n, length_new, current_SL, a, ch_depth):
     # new last river cell = SL - channel depth
     n[riv_x[-1]/dx][riv_y[-1]/dy] = current_SL - ch_depth
     
-    if length_new > 0:
+    if sum(length_new) > 0:
 
         # calculate slope of new stretch of river
         new_slope = ((n[riv_x[-len(length_new)]/dx][riv_y[-len(length_new)]/dy]

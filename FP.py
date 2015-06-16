@@ -23,7 +23,11 @@ def dep_blanket(dy, dx, imax, jmax, current_SL, blanket_rate, n,
         for j in range(jmax):
 
             # don't deposit if cell <= sea level
-            # ASK BRAD ABOUT THIS
+            """
+            ASK BRAD ABOUT THIS (no cell is below SL right now)
+            but it might be when couple?? need to figure out if keeping up
+            with elevation RELATIVE to sea level or actual elevation??
+            """
             if n[i][j] <= current_SL:
 
                 depo_flag[i][j] = 0
@@ -31,6 +35,7 @@ def dep_blanket(dy, dx, imax, jmax, current_SL, blanket_rate, n,
             j = j + 1
         i = i + 1
 
+    # if cell elevation is above bankfull elev, don't deposit
     for i in range(len(riv_x)):
         for j in range(jmax):
             
@@ -41,18 +46,14 @@ def dep_blanket(dy, dx, imax, jmax, current_SL, blanket_rate, n,
 
             j = j + 1
         i = i + 1
-    
-    for j in range(jmax):
         
-        # don't deposit on first two rows b/c inlet rise rate does that
-        depo_flag[0][j] = 0
-        depo_flag[1][j] = 0
-        
-        j = j + 1
+    # don't deposit on first two rows b/c inlet rise rate does that
+    depo_flag[0][:] = 0
+    depo_flag[1][:] = 0
 
     for i in range(imax):
         for j in range(jmax):
-            # if cell is outside river and above sea level, deposit
+            # deposit "blanket" deposition on qualified cells
             if depo_flag[i][j] == 1:
 
                 n[i][j] = n[i][j] + blanket_rate
@@ -95,6 +96,9 @@ def wetlands(dx, dy, imax, jmax, current_SL, WL_Z, WL_dist, n, riv_x, riv_y,
                 wetland_dep = n[riv_x[i]/dx][j] - before
                 dn_fp[riv_x[i]/dx][j] = dn_fp[riv_x[i]/dx][j] + wetland_dep
             
+                # depo flag so deposition at cell isn't recorded more than once
+                depo_wetland[riv_x[i]/dx][j] == 1
+
             j = j+1
         i = i+1
     
@@ -102,14 +106,17 @@ def wetlands(dx, dy, imax, jmax, current_SL, WL_Z, WL_dist, n, riv_x, riv_y,
 
 def dep_splay(dy, dx, imax, jmax, riv_x, riv_y, new_riv_x, new_riv_y,
               ch_depth, n, a, dn_fp, splay_type, splay_dep):
+    """
+    USE DEPTH-DEPENDENCE IN THE FUTURE
+        SE1 = (n[riv_x[a]/dx][riv_y[a]/dy] + ch_depth - \
+                n[new_riv_x[a]/dx][new_riv_y[a]/dy]) / ch_depth
 
-# USE DEPTH-DEPENDENCE IN THE FUTURE
-#    SE1 = (n[riv_x[a]/dx][riv_y[a]/dy] + ch_depth - \
-#            n[new_riv_x[a]/dx][new_riv_y[a]/dy]) / ch_depth
+    ADD LARGER SPLAY TYPE IN FUTURE?
+    (could be first two failed river cells + surrounding)
 
-# ADD LARGER SPLAY TYPE IN FUTURE?
-# (could be first two failed river cells + surrounding)
-
+    This could possibly be improved by comparing to find nearest beach routine (CEM)
+    or using some sort of search radius 
+    """
     if splay_type == 1:  # splay deposition just at first failed river cell
 
         # deposit at failed avulsion river cell
@@ -126,7 +133,7 @@ def dep_splay(dy, dx, imax, jmax, riv_x, riv_y, new_riv_x, new_riv_y,
 
         depo_flag2 = np.zeros((imax, jmax))
 
-        if new_riv_x[a]/dx == imax-1:
+        if new_riv_x[a]/dx == imax:
             
             depo_flag2[new_riv_x[a]/dx][(new_riv_y[a]/dy)-1] = 1    # left side
             depo_flag2[new_riv_x[a]/dx][(new_riv_y[a]/dy)+1] = 1    # right side
@@ -143,7 +150,7 @@ def dep_splay(dy, dx, imax, jmax, riv_x, riv_y, new_riv_x, new_riv_y,
             depo_flag2[(new_riv_x[a]/dx)-1][new_riv_y[a]/dy] = 1  # center u.s.
             depo_flag2[(new_riv_x[a]/dx)-1][(new_riv_y[a]/dy)+1] = 1  # right u.s.
             
-        elif new_riv_y[a]/dy == jmax-1:
+        elif new_riv_y[a]/dy == jmax:
             
             depo_flag2[new_riv_x[a]/dx][new_riv_y[a]/dy] = 1  # failed river cell
             depo_flag2[(new_riv_x[a]/dx)+1][(new_riv_y[a]/dy)-1] = 1  # Left d.s.
@@ -164,12 +171,14 @@ def dep_splay(dy, dx, imax, jmax, riv_x, riv_y, new_riv_x, new_riv_y,
             depo_flag2[(new_riv_x[a]/dx)-1][new_riv_y[a]/dy] = 1  # center u.s.
             depo_flag2[(new_riv_x[a]/dx)-1][(new_riv_y[a]/dy)+1] = 1  # right u.s.
 
+        # no splay deposition in river channel
         for i in range(len(riv_x)):
 
             depo_flag2[riv_x[i]/dx][riv_y[i]/dy] = 0
 
             i = i + 1
 
+        # deposit splay sediment on flagged cells
         for i in range(imax):
             for j in range(jmax):
                 if depo_flag2[i][j] == 1:

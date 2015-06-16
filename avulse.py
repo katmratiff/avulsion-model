@@ -131,6 +131,10 @@ def find_avulsion(dx, dy, imax, jmax, riv_x, riv_y, n, super_ratio, current_SL,
                             
                             riv_x = new_riv_x + riv_x[a+d+1:]
                             riv_y = new_riv_y + riv_y[a+d+1:]
+                            """
+                            above doesn't change river mouth location unless it's
+                            a regional avulsion
+                            """ 
 
                             break
                         
