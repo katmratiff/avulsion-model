@@ -9,6 +9,6 @@ def make_profile(dx, dy, n, riv_x, riv_y, profile):
         profile[p] = n[riv_x[p]/dx][riv_y[p]/dy]
         #profile.append(n[riv_x[p]][riv_y[p]])
         
-        p = p + 1
+        p += 1
     
     return profile
