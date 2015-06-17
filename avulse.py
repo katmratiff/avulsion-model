@@ -57,58 +57,58 @@ def find_avulsion(dx, dy, imax, jmax, riv_x, riv_y, n, super_ratio, current_SL,
                     if (((test_new_x[c+1]/dx) - (test_new_x[c]/dx) == 0) and
                         (test_new_y[c+1]/dy) - (test_new_y[c]/dy) == -1):
                             
-                            length_new = length_new + [1]
+                            length_new.append(1)
                     
                     elif (((test_new_x[c+1]/dx) - (test_new_x[c]/dx) == 0)
                         and (test_new_y[c+1]/dy) - (test_new_y[c]/dy) == 1):
                     
-                            length_new = length_new + [1]
+                            length_new.append(1)
                             
                     elif (((test_new_x[c+1]/dx) - (test_new_x[c]/dx) == 1)
                         and (test_new_y[c+1]/dy) - (test_new_y[c]/dy) == 0):
 
-                            length_new = length_new + [1]
+                            length_new.append(1)
                     
                     elif (((test_new_x[c+1]/dx) - (test_new_x[c]/dx) == 1)
                         and (test_new_y[c+1]/dy) - (test_new_y[c]/dy) == -1):
                             
-                            length_new = length_new + [math.sqrt(2)]
+                            length_new.append(math.sqrt(2))
 
                     elif (((test_new_x[c+1]/dx) - (test_new_x[c]/dx) == 1)
                         and (test_new_y[c+1]/dy) - (test_new_y[c]/dy) == 1):
                             
-                            length_new = length_new + [math.sqrt(2)]
+                            length_new.append(math.sqrt(2))
                     
-                    c = c + 1
+                    c += 1
                 
                 for b in range(len(test_old_x)-1):
                     
                     if (((test_old_x[b+1]/dx) - (test_old_x[b]/dx) == 0) and
                         (test_old_y[b+1]/dy) - (test_old_y[b]/dy) == -1):
                             
-                            length_old = length_old + 1
+                            length_old += 1
                     
                     elif (((test_old_x[b+1]/dx) - (test_old_x[b]/dx) == 0)
                         and (test_old_y[b+1]/dy) - (test_old_y[b]/dy) == 1):
                     
-                            length_old = length_old + 1
+                            length_old += 1
                             
                     elif (((test_old_x[b+1]/dx) - (test_old_x[b]/dx) == 1)
                         and (test_old_y[b+1]/dy) - (test_old_y[b]/dy) == 0):
 
-                            length_old = length_old + 1
+                            length_old += 1
                     
                     elif (((test_old_x[b+1]/dx) - (test_old_x[b]/dx) == 1)
                         and (test_old_y[b+1]/dy) - (test_old_y[b]/dy) == -1):
                             
-                            length_old = length_old + math.sqrt(2)
+                            length_old += math.sqrt(2)
 
                     elif (((test_old_x[b+1]/dx) - (test_old_x[b]/dx) == 1)
                         and (test_old_y[b+1]/dy) - (test_old_y[b]/dy) == 1):
                             
-                            length_old = length_old + math.sqrt(2)
+                            length_old += math.sqrt(2)
                     
-                    b = b + 1
+                    b += 1
 
                 # if new river course < length of old
                 # river course, then an avulsion will occur
@@ -138,7 +138,7 @@ def find_avulsion(dx, dy, imax, jmax, riv_x, riv_y, n, super_ratio, current_SL,
 
                             break
                         
-                        else: d = d + 1
+                        else: d += 1
                     
                     if avulsion_type == 1: 
                     
@@ -168,7 +168,7 @@ def find_avulsion(dx, dy, imax, jmax, riv_x, riv_y, n, super_ratio, current_SL,
                 riv_x = new_riv_x
                 riv_y = new_riv_y
                 loc = [a]
-        a = a + 1
+        a += 1
 
     return (riv_x, riv_y, loc, SEL, SER, n, dn_fp, avulsion_type, length_new_sum,
             length_old)

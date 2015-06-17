@@ -36,7 +36,7 @@ jmax = W/dy + 1
 
 # Time
 # (this part will change when coupled to sedflux)
-time_max = 5   # length of model run (years)
+time_max = 500   # length of model run (years)
 spinup = 0     # spin up time of model run (years)
 dt = (73)*60*60*24       # timestep (seconds), 60*60*24 = 1 day
 time_s = (time_max * 31536000)  # length of model run in seconds
@@ -46,7 +46,7 @@ save_after = spinup_s/dt        # save files after this point
 
 # Sea level & subsidence parameters
 Initial_SL = 0      # initial sea level
-SLRR_m = 0.015         # sea level rise rate (m/yr)
+SLRR_m = 0.025         # sea level rise rate (m/yr)
 IRR_m = 0.005  # (0.5 * SLRR_m)      # rate that inlet cell rises (subsidence)
 SLRR = (SLRR_m/31536000)*dt  # sea level rise rate in m/s per timestep
 IRR = (IRR_m/31536000)*dt    # inlet rise rate in m/s per timestep
@@ -67,9 +67,11 @@ WL_dist = 6                 # cell distance beyond channel that wetlands exist
 blanket_rate_m = (1 * IRR_m)    # "blanket" deposition (frac. of IRR)
 splay_dep_m = (1 * IRR_m)   # splay deposition
 splay_type = 2      # size of splay
-# splay_type = 0: no splay deposition
-# splay_type = 1: just the first failed avulsion river cell
-# splay_type = 2: first failed cell and adjacent cells
+"""
+splay_type = 0: no splay deposition
+splay_type = 1: just the first failed avulsion river cell
+splay_type = 2: first failed cell and adjacent cells
+"""
 blanket_rate = (blanket_rate_m/31536000)*dt    # blanket deposition in m/s
 splay_dep = (splay_dep_m/31536000)*dt       # splay deposition in m/s
 
@@ -192,7 +194,7 @@ for k in range(kmax):
                 np.savetxt('dn_fp/dn_fp_' + str(k*dt/86400 - (save_after)) +
                             '.out', dn_fp, fmt='%.6f')
 
-    k = k + 1
+    k += 1
 
 if savefiles == 1:
     np.savetxt('avulsions', avulsions, fmt='%.3f')

@@ -16,7 +16,7 @@ def elev_change(imax, jmax, current_SL, n, riv_x, riv_y, ch_depth, dx, dy):
         
         rc_flag[riv_x[i]/dx][riv_y[i]/dy] = 1
         
-        i = i + 1
+        i += 1
     
     # changes elevation of last river course cell according to sea level change
     n[riv_x[-1]/dx][riv_y[-1]/dy] = current_SL - ch_depth
@@ -28,8 +28,8 @@ def elev_change(imax, jmax, current_SL, n, riv_x, riv_y, ch_depth, dx, dy):
             if (n[i][j] < current_SL and rc_flag[i][j] == 0):
                 n[i][j] = current_SL
 
-            j = j + 1
-        i = i + 1
+            j += 1
+        i += 1
         """
         Need to somehow change above treatment of cells... they don't need to be
         raised to sea level anymore. 
