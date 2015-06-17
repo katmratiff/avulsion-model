@@ -41,8 +41,8 @@ for i in range(imax):
             n[i][j] = n0 - (nslope * float(x[i][j]) + max_rand*random())
         elif Concave == 1:
             n[i][j] = n0 - (drop * np.sqrt(x[i][j]) + max_rand*random())
-        j = j + 1
-    i = i + 1
+        j += 1
+    i += 1
 
 # Determine initial river course
 riv_x, riv_y = steep_desc.find_course(dx, dy, imax, jmax, n, riv_x, riv_y)
