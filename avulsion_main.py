@@ -4,7 +4,7 @@ Created on Wed Nov 12 09:28:51 2014
 
 @author: kmratliff
 """
-from init import *
+from config import *
 from pylab import *
 import os
 import numpy as np
